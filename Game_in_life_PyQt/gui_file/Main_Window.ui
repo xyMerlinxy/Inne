@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>462</width>
+    <height>287</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Gra w życie</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(240, 240, 240);</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(200, 200, 200)</string>
+   </property>
+   <layout class="QVBoxLayout" name="layout_main">
+    <item>
+     <layout class="QGridLayout" name="game_table">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame">
+        <property name="minimumSize">
+         <size>
+          <width>440</width>
+          <height>89</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>440</width>
+          <height>89</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <widget class="QLabel" name="neighbors_count">
+         <property name="geometry">
+          <rect>
+           <x>8</x>
+           <y>10</y>
+           <width>90</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Ilość sąsiadów:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="n0">
+         <property name="geometry">
+          <rect>
+           <x>102</x>
+           <y>10</y>
+           <width>24</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string notr="true">0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="d0">
+         <property name="geometry">
+          <rect>
+           <x>104</x>
+           <y>36</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="l0">
+         <property name="geometry">
+          <rect>
+           <x>104</x>
+           <y>60</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="death">
+         <property name="geometry">
+          <rect>
+           <x>8</x>
+           <y>34</y>
+           <width>90</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="text">
+          <string>Martwi:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="live">
+         <property name="geometry">
+          <rect>
+           <x>8</x>
+           <y>58</y>
+           <width>90</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Żywi:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="n2">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>10</y>
+           <width>24</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string notr="true">2</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="d2">
+         <property name="geometry">
+          <rect>
+           <x>152</x>
+           <y>36</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="l2">
+         <property name="geometry">
+          <rect>
+           <x>152</x>
+           <y>60</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="n3">
+         <property name="geometry">
+          <rect>
+           <x>174</x>
+           <y>10</y>
+           <width>24</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string notr="true">3</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="d3">
+         <property name="geometry">
+          <rect>
+           <x>176</x>
+           <y>36</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="l3">
+         <property name="geometry">
+          <rect>
+           <x>176</x>
+           <y>60</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="n4">
+         <property name="geometry">
+          <rect>
+           <x>198</x>
+           <y>10</y>
+           <width>24</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string notr="true">4</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="d4">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>36</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="l4">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>60</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="n5">
+         <property name="geometry">
+          <rect>
+           <x>222</x>
+           <y>10</y>
+           <width>24</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string notr="true">5</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="d5">
+         <property name="geometry">
+          <rect>
+           <x>224</x>
+           <y>36</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="l5">
+         <property name="geometry">
+          <rect>
+           <x>224</x>
+           <y>60</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="n6">
+         <property name="geometry">
+          <rect>
+           <x>246</x>
+           <y>10</y>
+           <width>24</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string notr="true">6</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="d6">
+         <property name="geometry">
+          <rect>
+           <x>248</x>
+           <y>36</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="l6">
+         <property name="geometry">
+          <rect>
+           <x>248</x>
+           <y>60</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="n7">
+         <property name="geometry">
+          <rect>
+           <x>270</x>
+           <y>10</y>
+           <width>24</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string notr="true">7</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="d7">
+         <property name="geometry">
+          <rect>
+           <x>272</x>
+           <y>36</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="l7">
+         <property name="geometry">
+          <rect>
+           <x>272</x>
+           <y>60</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="n8">
+         <property name="geometry">
+          <rect>
+           <x>294</x>
+           <y>10</y>
+           <width>24</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string notr="true">8</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="d8">
+         <property name="geometry">
+          <rect>
+           <x>296</x>
+           <y>36</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="l8">
+         <property name="geometry">
+          <rect>
+           <x>296</x>
+           <y>60</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="button_backward">
+         <property name="geometry">
+          <rect>
+           <x>325</x>
+           <y>8</y>
+           <width>50</width>
+           <height>34</height>
+          </rect>
+         </property>
+         <property name="statusTip">
+          <string>Do tyłu (&lt;-,Ctrl+Z)</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(223, 223, 223)</string>
+         </property>
+         <property name="text">
+          <string notr="true">&lt;</string>
+         </property>
+         <property name="shortcut">
+          <string>Left</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+         <property name="autoRepeatDelay">
+          <number>1000</number>
+         </property>
+         <property name="autoRepeatInterval">
+          <number>500</number>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="button_start">
+         <property name="geometry">
+          <rect>
+           <x>325</x>
+           <y>47</y>
+           <width>50</width>
+           <height>34</height>
+          </rect>
+         </property>
+         <property name="statusTip">
+          <string>Start automatycznej gry (Ctrl + X)</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(223, 223, 223)</string>
+         </property>
+         <property name="text">
+          <string>Start</string>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+X</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="button_forward">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>8</y>
+           <width>50</width>
+           <height>34</height>
+          </rect>
+         </property>
+         <property name="statusTip">
+          <string>Do przodu (-&gt;,Ctrl+Y)</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(223, 223, 223)</string>
+         </property>
+         <property name="text">
+          <string notr="true">&gt;</string>
+         </property>
+         <property name="shortcut">
+          <string>Right</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+         <property name="autoRepeatDelay">
+          <number>1000</number>
+         </property>
+         <property name="autoRepeatInterval">
+          <number>500</number>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="button_stop">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>47</y>
+           <width>50</width>
+           <height>34</height>
+          </rect>
+         </property>
+         <property name="statusTip">
+          <string>Zatrzymanie automatycznej gry (Ctrl + C)</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(223, 223, 223)</string>
+         </property>
+         <property name="text">
+          <string>Stop</string>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+C</string>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="n1">
+         <property name="geometry">
+          <rect>
+           <x>126</x>
+           <y>10</y>
+           <width>24</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="d1">
+         <property name="geometry">
+          <rect>
+           <x>128</x>
+           <y>36</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="l1">
+         <property name="geometry">
+          <rect>
+           <x>128</x>
+           <y>60</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator { width:20px; height: 20px;}</string>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+        </widget>
+        <zorder>n0</zorder>
+        <zorder>neighbors_count</zorder>
+        <zorder>d0</zorder>
+        <zorder>l0</zorder>
+        <zorder>death</zorder>
+        <zorder>live</zorder>
+        <zorder>n2</zorder>
+        <zorder>d2</zorder>
+        <zorder>l2</zorder>
+        <zorder>n3</zorder>
+        <zorder>d3</zorder>
+        <zorder>l3</zorder>
+        <zorder>n4</zorder>
+        <zorder>d4</zorder>
+        <zorder>l4</zorder>
+        <zorder>n5</zorder>
+        <zorder>d5</zorder>
+        <zorder>l5</zorder>
+        <zorder>n6</zorder>
+        <zorder>d6</zorder>
+        <zorder>l6</zorder>
+        <zorder>n7</zorder>
+        <zorder>d7</zorder>
+        <zorder>l7</zorder>
+        <zorder>n8</zorder>
+        <zorder>d8</zorder>
+        <zorder>l8</zorder>
+        <zorder>button_backward</zorder>
+        <zorder>button_start</zorder>
+        <zorder>button_forward</zorder>
+        <zorder>button_stop</zorder>
+        <zorder>n1</zorder>
+        <zorder>d1</zorder>
+        <zorder>l1</zorder>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>462</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(170, 170, 170)</string>
+   </property>
+   <widget class="QMenu" name="menu_settings">
+    <property name="title">
+     <string>Ustawienia</string>
+    </property>
+    <addaction name="action_reset"/>
+    <addaction name="action_change_size"/>
+    <addaction name="separator"/>
+    <addaction name="action_data_import"/>
+    <addaction name="action_data_export"/>
+   </widget>
+   <widget class="QMenu" name="menu_game">
+    <property name="title">
+     <string>Gra</string>
+    </property>
+    <addaction name="action_forward"/>
+    <addaction name="action_backward"/>
+   </widget>
+   <addaction name="menu_settings"/>
+   <addaction name="menu_game"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(230, 230, 230);</string>
+   </property>
+  </widget>
+  <action name="action_reset">
+   <property name="text">
+    <string>Resetuj</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="action_data_import">
+   <property name="text">
+    <string>Import danych</string>
+   </property>
+  </action>
+  <action name="action_change_size">
+   <property name="text">
+    <string>Zmień rozmiar</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
+   </property>
+  </action>
+  <action name="action_forward">
+   <property name="text">
+    <string>W przód</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
+   </property>
+  </action>
+  <action name="action_backward">
+   <property name="text">
+    <string>Do tyłu</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="action_data_export">
+   <property name="text">
+    <string>Eksport danych</string>
+   </property>
+  </action>
+ </widget>
+ <tabstops>
+  <tabstop>d0</tabstop>
+  <tabstop>d1</tabstop>
+  <tabstop>d2</tabstop>
+  <tabstop>d3</tabstop>
+  <tabstop>d4</tabstop>
+  <tabstop>d5</tabstop>
+  <tabstop>d6</tabstop>
+  <tabstop>d7</tabstop>
+  <tabstop>d8</tabstop>
+  <tabstop>l0</tabstop>
+  <tabstop>l1</tabstop>
+  <tabstop>l2</tabstop>
+  <tabstop>l3</tabstop>
+  <tabstop>l4</tabstop>
+  <tabstop>l5</tabstop>
+  <tabstop>l6</tabstop>
+  <tabstop>l7</tabstop>
+  <tabstop>l8</tabstop>
+  <tabstop>button_backward</tabstop>
+  <tabstop>button_start</tabstop>
+  <tabstop>button_forward</tabstop>
+  <tabstop>button_stop</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
