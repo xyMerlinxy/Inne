@@ -1,4 +1,9 @@
 #pragma once
+
+#include <fstream>
+#include <stdexcept>
+#include <string>
+
 class CubeHash
 {
 private:
@@ -8,6 +13,8 @@ private:
 public:
 	CubeHash(int i, int r, int b, int f, int h);
 	unsigned char* hashMessage(unsigned char* msg, int length);
+	unsigned char* hashFile(std::string file, bool write);
+	unsigned char* hashFile(std::string file);
 
 	void reset();
 
