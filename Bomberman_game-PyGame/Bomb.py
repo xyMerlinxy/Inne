@@ -1,19 +1,21 @@
 import pygame
 from MovableObject import MovableObject
 from Field import Field
-from Fire import Fire
+from Fire import Fire, TIME_TO_EXPAND_FIRE, TIME_TO_DISAPEAR
+
+TIME_TO_EXPLODE = 4000
 
 
 class Bomb(MovableObject):
+    images = []
+    list_ = []
+
     def __init__(self, game, level, position, player, power):
         # bomb, ready to explode, exploded, waiting, ending
         self.state = 0
 
-        self.timer = 4000
-        self.time_fire = 80
-        self.time_time = 700
+        self.timer = TIME_TO_EXPLODE
 
-        self.images = level.bomb_images
         self.owner = player
         self.fires: list[Fire] = []
 
@@ -25,6 +27,16 @@ class Bomb(MovableObject):
 
         self.speed = 1
         self.power = power
+
+    @staticmethod
+    def init():
+        # TODO make rotate image
+        Bomb.images = [pygame.image.load("img/bomb/bomb_0.png"),
+                       pygame.image.load("img/bomb/bomb_1.png"),
+                       pygame.image.load("img/bomb/bomb_2.png"),
+                       pygame.image.load("img/bomb/bomb_3.png"),
+                       pygame.image.load("img/bomb/bomb_4.png"),
+                       ]
 
     def move_object(self):  # type: ()-> bool
         if self.state == 0:
@@ -50,15 +62,20 @@ class Bomb(MovableObject):
         if self.state == 0 and self.movement == 0:
             self.direction = direction
             x, y = self.position
-            if self.direction == 0:x-=1
-            elif self.direction == 1: y-=1
-            elif self.direction == 2: x+=1
-            elif self.direction == 3: y+=1
+            if self.direction == 0:
+                x -= 1
+            elif self.direction == 1:
+                y -= 1
+            elif self.direction == 2:
+                x += 1
+            elif self.direction == 3:
+                y += 1
 
             if self.background[x][y].can_entry_bomb():
-                self.set_move_parameters((x * self.game.size, y * self.game.size),self.background[x][y])
+                self.set_move_parameters((x * self.game.size, y * self.game.size), self.background[x][y])
                 return True
-            else: return False
+            else:
+                return False
 
         elif self.state == 1:
             self.explode()
@@ -76,46 +93,48 @@ class Bomb(MovableObject):
                 if self.power:
                     for f in self.fires:
                         f.next()
-                    self.timer = self.time_fire
+                    self.timer = TIME_TO_EXPAND_FIRE
                 else:
-                    self.timer = self.time_time
+                    self.timer = TIME_TO_DISAPEAR
                     self.state = 3
             elif self.state == 3:
                 self.end()
 
     def explode(self):
+
         if self.state == 1:
             self.state = 2
 
             self.set_cords((self.position[0] * self.game.size, self.position[1] * self.game.size))
             self.owner.bomb_counter -= 1
-            self.fires = [Fire(self.game, self.level, self, self.position, 4, 0),
+            self.fires = [Fire(self.game, self.level, self, self.position, 4, self.power),
                           Fire(self.game, self.level, self, self.position, 0, self.power),
                           Fire(self.game, self.level, self, self.position, 1, self.power),
                           Fire(self.game, self.level, self, self.position, 2, self.power),
                           Fire(self.game, self.level, self, self.position, 3, self.power),
                           ]
 
-            self.timer = self.time_fire
+            self.timer = TIME_TO_EXPAND_FIRE
 
     def draw(self):
         if self.state == 2 or self.state == 3:
-            self.image = self.images[1][0]
+            # self.image = self.images[1][0]
             for f in self.fires:
                 f.draw()
+            return  # if exploded don't draw self
         elif self.state == 1:
-            self.image = self.images[0][4]
+            self.image = self.images[4]
         elif self.state == 0:
             if self.timer > 3500:
-                self.image = self.images[0][0]
+                self.image = self.images[0]
             elif self.timer > 2500:
-                self.image = self.images[0][1]
+                self.image = self.images[1]
             elif self.timer > 1500:
-                self.image = self.images[0][2]
+                self.image = self.images[2]
             elif self.timer > 100:
-                self.image = self.images[0][3]
+                self.image = self.images[3]
             elif self.timer > 0:
-                self.image = self.images[0][4]
+                self.image = self.images[4]
 
         super().draw()
 
@@ -132,7 +151,7 @@ class Bomb(MovableObject):
         super().hide()
         for b in self.my_background:
             b.remove_object(self)
-        self.level.bomb_list.remove(self)
+        self.list_.remove(self)
 
         self.fires = []
 
@@ -140,7 +159,7 @@ class Bomb(MovableObject):
         self.my_background[0].remove_object(self)
         super().end_move()
 
-    def destroy(self):
+    def destroy(self, time=0):
         # print("DESTROY")
         if self.state < 2:
             self.state = 1

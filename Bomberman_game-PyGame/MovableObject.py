@@ -1,8 +1,8 @@
 import pygame
 from Object import Object
 from Field import Field
-from Fire import *
 from PowerUp import PowerUp
+from Fire import FireSegment
 
 
 class MovableObject(Object):

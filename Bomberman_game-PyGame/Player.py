@@ -39,7 +39,6 @@ class Player(MovableObject):
 
         self.lives = 1
 
-
         # TODO change name
         self.ability_to_kick = False
 
@@ -64,22 +63,23 @@ class Player(MovableObject):
 
     def press_key(self, key):
         if key in self.key:
-            if self.key.index(key) == 4:
+            k_index = self.key.index(key)
+            if k_index == 4:
                 self.plant_bomb()
             else:
-                if key in self.pressed_key: self.pressed_key.remove(key)
-                self.pressed_key.append(key)
+                if k_index in self.pressed_key: self.pressed_key.remove(k_index)
+                self.pressed_key.append(self.key.index(key))
+        print(self.pressed_key)
 
     def plant_bomb(self):
         if self.bomb_max > self.bomb_counter and self.background[self.position[0]][self.position[1]].can_entry():
-            self.level.bomb_list.append(Bomb(self.game, self.level, self.position, self, self.bomb_power))
+            Bomb.list_.append(Bomb(self.game, self.level, self.position, self, self.bomb_power))
             self.bomb_counter += 1
-            print(
-                f"Bomb placed: {self.position}, {self.bomb_max}>{self.bomb_counter} ID:{self.id}, {self.level.bomb_list[-1]}")
 
     def release_key(self, key):
         if key in self.key and self.key.index(key) < 4:
-            self.pressed_key.remove(key)
+            self.pressed_key.remove(self.key.index(key))
+        print(self.pressed_key)
 
     def set_move_parameters(self, destination, next_background: Field, direction=0):
         self.direction = direction
@@ -93,14 +93,14 @@ class Player(MovableObject):
     def start_move(self):
 
         if self.movement == 0 and len(self.pressed_key):
-            for k in self.pressed_key[::-1]:
-                if self.reaction_for_key(k):
-                    self.direction = (self.key.index(k) + self.level.change_direction) % 4
+            for key in self.pressed_key[::-1]:
+                if self.reaction_for_key(key):
+                    self.direction = (key + self.level.change_direction) % 4
                     break
 
     def reaction_for_key(self, key):
         x, y = self.position
-        index = (self.key.index(key) + self.level.change_direction) % 4
+        index = (key + self.level.change_direction) % 4
         if index == 0:
             x -= 1
         elif index == 1:
@@ -125,7 +125,7 @@ class Player(MovableObject):
         # print(f"{self.my_background[1].cords} Num of player: {self.my_background[1].number_of_player}")
         super().end_move()
 
-    def destroy(self):
+    def destroy(self, time=0):
         if not self.insensitivity:
             self.lives -= 1
             if self.lives == 0:
@@ -133,13 +133,13 @@ class Player(MovableObject):
                 self.hide()
         return False
 
-    def insensitivity_on(self):
-        self.insensitivity = True
-        print(f"Player {self.id} insensitivty {self.insensitivity}")
-        self.insensitivity_timer = 10000  # 10 second
-
     def collect(self, powerup):
         powerup.collect(self)
+
+    def insensitivity_on(self):
+        self.insensitivity = True
+        print(f"Player {self.id} insensitivity {self.insensitivity}")
+        self.insensitivity_timer = 10000  # 10 second
 
     def change_timer(self, dt):
         self.insensitivity_timer -= dt

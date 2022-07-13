@@ -36,7 +36,7 @@ class Object(pygame.Rect):
     def set_image(self, image: pygame.Surface):
         self.image = image
 
-    def destroy(self):
+    def destroy(self, time=0):
         return False
 
     def delete(self): pass

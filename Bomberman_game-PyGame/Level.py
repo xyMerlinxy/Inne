@@ -18,24 +18,22 @@ class Level:
         self.walls_list = []
         self.load_map(self.lvl_name)
 
-        # bomb
-        self.bomb_images = []
-        self.load_bomb_images()
-        self.bomb_list: list[Bomb] = []
-
-        # powerup
-        self.powerUp_images = []
-        self.load_powerup_images()
-        self.powerUp_list: list[PowerUp] = []
-
         # player start position
         psc = [[1, 1], [17, 1], [1, 11], [17, 11]]
+
+        # TODO add number of player settings
         # creating player
+        number_player = 2
         self.all_players: list[Player] = list(
-            Player(self.game, self, [psc[i][0] * self.game.size, psc[i][1] * self.game.size], i) for i in range(4)
+            Player(self.game,
+                   self, [psc[i][0] * self.game.size, psc[i][1] * self.game.size],
+                   i) for i in range(number_player)
         )
         self.alive_players: list[Player] = list(self.all_players)
         self.dead_players: list[Player] = []
+
+
+
 
         # game param
         self.change_direction = 0
@@ -62,55 +60,22 @@ class Level:
         # TODO make validation opened file
         file_map = open(f"map/{lvl_name}", "r")
         graphic_type = file_map.readline()[:-1]
-        numbers_of_images = int(file_map.readline()[:-1])
+        number_of_images = int(file_map.readline()[:-1])
         number_of_map_lines = int(file_map.readline()[:-1])
 
-        loaded_images = []
-        for i in range(numbers_of_images):
-            print(f'map/{graphic_type}/{i}')
-            loaded_images.append(pygame.image.load(f'map/{graphic_type}/{i}.bmp'))
+        Field.load_images(graphic_type, number_of_images)
+        Wall.load_images(graphic_type)
 
         # TODO check if there is that folder
-        for i in range(number_of_map_lines):
+        for row in range(number_of_map_lines):
             line = file_map.readline()
-            for j, field in enumerate(line.split()):
-                self.background[j][i] = Field(self.game, self, int(field), [self.game.size * j, self.game.size * i],
-                                              loaded_images[int(field)])
+            for column, field in enumerate(line.split()):
+                self.background[column][row] = Field(self.game, self, int(field), [self.game.size * column, self.game.size * row])
 
-        wall_image = pygame.image.load(f'map/{graphic_type}/w0.bmp')
         # load wall cords
         walls_cord = file_map.readline().split(";")
         for cords in walls_cord:
-            self.walls_list.append(Wall(self.game, self, list(map(int, cords.split(","))), wall_image))
-
-    def load_bomb_images(self):
-        # TODO make rotate image
-        self.bomb_images = [
-            [pygame.image.load("img/bomb/bomb_0.png"),
-             pygame.image.load("img/bomb/bomb_1.png"),
-             pygame.image.load("img/bomb/bomb_2.png"),
-             pygame.image.load("img/bomb/bomb_3.png"),
-             pygame.image.load("img/bomb/bomb_4.png"),
-             ],
-            [pygame.image.load("img/bomb/explosion_0.png"),
-             [pygame.image.load("img/bomb/explosion_10.png"),
-              pygame.image.load("img/bomb/explosion_11.png"),
-              pygame.image.load("img/bomb/explosion_12.png"),
-              pygame.image.load("img/bomb/explosion_13.png")],
-             [pygame.image.load("img/bomb/explosion_20.png"),
-              pygame.image.load("img/bomb/explosion_21.png"),
-              pygame.image.load("img/bomb/explosion_22.png"),
-              pygame.image.load("img/bomb/explosion_23.png")]
-             ]
-        ]
-
-    def load_powerup_images(self):
-        number_of_powerups = PowerUp.number_of_powerups
-        for i in range(number_of_powerups):
-            self.powerUp_images.append(
-                pygame.image.load(f"img/powerup/p{i}.png")
-            )
-        print(self.powerUp_images)
+            self.walls_list.append(Wall(self.game, self, list(map(int, cords.split(",")))))
 
     def remove_player(self, player):
         self.alive_players.remove(player)
@@ -145,6 +110,8 @@ class Level:
             elif event.type == pygame.KEYUP:
                 for p in self.alive_players:
                     p.release_key(event.key)
+
+
             elif event.type == EVENT_POWERUP_CHANGE_DIRECTION:
                 print("Change direction reset")
                 self.change_direction = 0
@@ -157,16 +124,17 @@ class Level:
         if not self.is_end:
             for p in self.alive_players: p.start_move()
             for p in self.alive_players: p.hide()
-            for b in self.bomb_list: b.hide()
+            for b in Bomb.list_: b.hide()
 
             for p in self.alive_players: p.move_object()
-            for b in self.bomb_list: b.move_object()
+            for b in Bomb.list_: b.move_object()
 
-            for b in self.bomb_list: b.change_timer(delta_time)
+            for b in Bomb.list_: b.change_timer(delta_time)
             for p in self.alive_players: p.change_timer(delta_time)
-            # for w in self.walls_list: w.draw()
-            for u in self.powerUp_list: u.draw()
-            for b in self.bomb_list: b.draw()
+            for w in Wall.destroyed_walls: w.change_timer(delta_time)
+            for w in Wall.destroyed_walls: w.draw()
+            for u in PowerUp.list_: u.draw()
+            for b in Bomb.list_: b.draw()
             for p in self.alive_players: p.draw()
 
             if len(self.alive_players) == 1 and self.state == 0:

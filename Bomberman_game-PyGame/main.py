@@ -1,21 +1,32 @@
 import pygame
+
+from Fire import Fire
 from Level import Level
 from Menu import Menu
 from Events import *
+from PowerUp import PowerUp
+from Bomb import Bomb
+
+# TODO add more powerups ( ...)
+# TODO img in menu, make with fonts, not witch image
+# TODO make better back button in settings
 
 
-# TODO ?? Remove from fields object[] and add (wall, power_up,bomb)(solved ??)
-# TODO add more powerups (+- fire range, ...)
 # PROPOSITION - add destroy wall animation
 
 class Game:
 
     def __init__(self):
+        # pygame.font.init()
+
         self.size = 45
         self.fields_size = (19, 13)
         self.display_size = (self.fields_size[0] * self.size, self.fields_size[1] * self.size)
 
         pygame.init()
+        pygame.font.init()
+
+
         pygame.display.set_caption("Bombowy człowiek")
         self.display = pygame.display.set_mode(self.display_size)
 
@@ -33,6 +44,11 @@ class Game:
 
         self.level = None
         self.menu = None
+
+        # init my class
+        PowerUp.init()  # load images
+        Bomb.init()  # load images
+        Fire.init()  # load images
 
     def start_lvl(self):
         self.level = Level(self, "lvl_1")
